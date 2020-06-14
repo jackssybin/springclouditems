@@ -1,0 +1,34 @@
+server:
+  port: 9002
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+      - id: servicea
+        uri: http://localhost:8090/
+        predicates:
+        - Path=/test/**
+#        可以通过是 POST、GET、PUT、DELETE 等不同的请求方式来进行路由。
+        - Method=GET
+        #Query Route Predicate 支持传入两个参数，一个是属性名一个为属性值，属性值可以是正则表达式。
+        - Query=test
+
+
+
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
